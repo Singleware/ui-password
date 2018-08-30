@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Input_1;
+var Template_1;
 "use strict";
 /**
  * Copyright (C) 2018 Silas B. Domingos
@@ -16,9 +16,9 @@ const Class = require("@singleware/class");
 const DOM = require("@singleware/jsx");
 const Control = require("@singleware/ui-control");
 /**
- * Password input class.
+ * Password template class.
  */
-let Input = Input_1 = class Input extends Control.Component {
+let Template = Template_1 = class Template extends Control.Component {
     /**
      * Default constructor.
      * @param properties Form properties.
@@ -133,20 +133,20 @@ let Input = Input_1 = class Input extends Control.Component {
      * Bind event handlers to update the custom element.
      */
     bindHandlers() {
-        this.skeleton.addEventListener('keyup', Class.bindCallback(this.changeHandler));
+        this.skeleton.addEventListener('keyup', this.changeHandler.bind(this));
     }
     /**
      * Bind exposed properties to the custom element.
      */
     bindProperties() {
         Object.defineProperties(this.skeleton, {
-            name: super.bindDescriptor(Input_1.prototype, 'name'),
-            value: super.bindDescriptor(Input_1.prototype, 'value'),
-            empty: super.bindDescriptor(Input_1.prototype, 'empty'),
-            required: super.bindDescriptor(Input_1.prototype, 'required'),
-            readOnly: super.bindDescriptor(Input_1.prototype, 'readOnly'),
-            disabled: super.bindDescriptor(Input_1.prototype, 'disabled'),
-            orientation: super.bindDescriptor(Input_1.prototype, 'orientation')
+            name: super.bindDescriptor(this, Template_1.prototype, 'name'),
+            value: super.bindDescriptor(this, Template_1.prototype, 'value'),
+            empty: super.bindDescriptor(this, Template_1.prototype, 'empty'),
+            required: super.bindDescriptor(this, Template_1.prototype, 'required'),
+            readOnly: super.bindDescriptor(this, Template_1.prototype, 'readOnly'),
+            disabled: super.bindDescriptor(this, Template_1.prototype, 'disabled'),
+            orientation: super.bindDescriptor(this, Template_1.prototype, 'orientation')
         });
     }
     /**
@@ -250,74 +250,74 @@ let Input = Input_1 = class Input extends Control.Component {
 };
 __decorate([
     Class.Private()
-], Input.prototype, "states", void 0);
+], Template.prototype, "states", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "passwordSlot", void 0);
+], Template.prototype, "passwordSlot", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "confirmationSlot", void 0);
+], Template.prototype, "confirmationSlot", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "strengthSlot", void 0);
+], Template.prototype, "strengthSlot", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "field", void 0);
+], Template.prototype, "field", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "wrapper", void 0);
+], Template.prototype, "wrapper", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "styles", void 0);
+], Template.prototype, "styles", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "skeleton", void 0);
+], Template.prototype, "skeleton", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "elements", void 0);
+], Template.prototype, "elements", void 0);
 __decorate([
     Class.Private()
-], Input.prototype, "validateConfirmation", null);
+], Template.prototype, "validateConfirmation", null);
 __decorate([
     Class.Private()
-], Input.prototype, "validateStrength", null);
+], Template.prototype, "validateStrength", null);
 __decorate([
     Class.Private()
-], Input.prototype, "changeHandler", null);
+], Template.prototype, "changeHandler", null);
 __decorate([
     Class.Private()
-], Input.prototype, "bindHandlers", null);
+], Template.prototype, "bindHandlers", null);
 __decorate([
     Class.Private()
-], Input.prototype, "bindProperties", null);
+], Template.prototype, "bindProperties", null);
 __decorate([
     Class.Private()
-], Input.prototype, "assignProperties", null);
+], Template.prototype, "assignProperties", null);
 __decorate([
     Class.Public()
-], Input.prototype, "name", null);
+], Template.prototype, "name", null);
 __decorate([
     Class.Public()
-], Input.prototype, "value", null);
+], Template.prototype, "value", null);
 __decorate([
     Class.Public()
-], Input.prototype, "empty", null);
+], Template.prototype, "empty", null);
 __decorate([
     Class.Public()
-], Input.prototype, "required", null);
+], Template.prototype, "required", null);
 __decorate([
     Class.Public()
-], Input.prototype, "readOnly", null);
+], Template.prototype, "readOnly", null);
 __decorate([
     Class.Public()
-], Input.prototype, "disabled", null);
+], Template.prototype, "disabled", null);
 __decorate([
     Class.Public()
-], Input.prototype, "orientation", null);
+], Template.prototype, "orientation", null);
 __decorate([
     Class.Public()
-], Input.prototype, "element", null);
-Input = Input_1 = __decorate([
+], Template.prototype, "element", null);
+Template = Template_1 = __decorate([
     Class.Describe()
-], Input);
-exports.Input = Input;
+], Template);
+exports.Template = Template;

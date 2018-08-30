@@ -2,9 +2,9 @@ import * as Control from '@singleware/ui-control';
 import { Properties } from './properties';
 import { Element } from './element';
 /**
- * Password input class.
+ * Password template class.
  */
-export declare class Input extends Control.Component<Properties> {
+export declare class Template extends Control.Component<Properties> {
     /**
      * Input states.
      */

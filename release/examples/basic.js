@@ -13,7 +13,7 @@ const patterns = {
     20: /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/,
     30: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W]).{6,}$/
 };
-const input = (DOM.create(Password.Input, { patterns: patterns, strength: 20 },
+const input = (DOM.create(Password.Template, { patterns: patterns, strength: 20 },
     DOM.create("input", { slot: "password", type: "password" }),
     DOM.create("input", { slot: "confirmation", type: "password" }),
     DOM.create("input", { slot: "strength", type: "text" })));

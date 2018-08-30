@@ -10,10 +10,10 @@ import { Properties } from './properties';
 import { Element } from './element';
 
 /**
- * Password input class.
+ * Password template class.
  */
 @Class.Describe()
-export class Input extends Control.Component<Properties> {
+export class Template extends Control.Component<Properties> {
   /**
    * Input states.
    */
@@ -160,7 +160,7 @@ export class Input extends Control.Component<Properties> {
    */
   @Class.Private()
   private bindHandlers(): void {
-    this.skeleton.addEventListener('keyup', Class.bindCallback(this.changeHandler));
+    this.skeleton.addEventListener('keyup', this.changeHandler.bind(this));
   }
 
   /**
@@ -169,13 +169,13 @@ export class Input extends Control.Component<Properties> {
   @Class.Private()
   private bindProperties(): void {
     Object.defineProperties(this.skeleton, {
-      name: super.bindDescriptor(Input.prototype, 'name'),
-      value: super.bindDescriptor(Input.prototype, 'value'),
-      empty: super.bindDescriptor(Input.prototype, 'empty'),
-      required: super.bindDescriptor(Input.prototype, 'required'),
-      readOnly: super.bindDescriptor(Input.prototype, 'readOnly'),
-      disabled: super.bindDescriptor(Input.prototype, 'disabled'),
-      orientation: super.bindDescriptor(Input.prototype, 'orientation')
+      name: super.bindDescriptor(this, Template.prototype, 'name'),
+      value: super.bindDescriptor(this, Template.prototype, 'value'),
+      empty: super.bindDescriptor(this, Template.prototype, 'empty'),
+      required: super.bindDescriptor(this, Template.prototype, 'required'),
+      readOnly: super.bindDescriptor(this, Template.prototype, 'readOnly'),
+      disabled: super.bindDescriptor(this, Template.prototype, 'disabled'),
+      orientation: super.bindDescriptor(this, Template.prototype, 'orientation')
     });
   }
 

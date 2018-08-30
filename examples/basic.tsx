@@ -13,11 +13,11 @@ const patterns = {
   30: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W]).{6,}$/
 };
 const input = (
-  <Password.Input patterns={patterns} strength={20}>
+  <Password.Template patterns={patterns} strength={20}>
     <input slot="password" type="password" />
     <input slot="confirmation" type="password" />
     <input slot="strength" type="text" />
-  </Password.Input>
+  </Password.Template>
 ) as Password.Element;
 
 /**
