@@ -8,6 +8,7 @@ import * as Control from '@singleware/ui-control';
 
 import { Properties } from './properties';
 import { Element } from './element';
+import { States } from './states';
 
 /**
  * Password template class.
@@ -23,53 +24,53 @@ export class Template extends Control.Component<Properties> {
     required: false,
     readOnly: false,
     disabled: false
-  };
+  } as States;
 
   /**
    * Password element.
    */
   @Class.Private()
-  private passwordSlot: HTMLSlotElement = <slot name="password" class="password" /> as HTMLSlotElement;
+  private passwordSlot = <slot name="password" class="password" /> as HTMLSlotElement;
 
   /**
    * Confirmation element.
    */
   @Class.Private()
-  private confirmationSlot: HTMLSlotElement = <slot name="confirmation" class="confirmation" /> as HTMLSlotElement;
+  private confirmationSlot = <slot name="confirmation" class="confirmation" /> as HTMLSlotElement;
 
   /**
    * Strength element.
    */
   @Class.Private()
-  private strengthSlot: HTMLSlotElement = <slot name="strength" class="strength" /> as HTMLSlotElement;
+  private strengthSlot = <slot name="strength" class="strength" /> as HTMLSlotElement;
 
   /**
    * Field element.
    */
   @Class.Private()
-  private field: HTMLElement = (
+  private field = (
     <div class="field">
       {this.passwordSlot}
       {this.confirmationSlot}
     </div>
-  ) as HTMLElement;
+  ) as HTMLDivElement;
 
   /**
    * Wrapper element.
    */
   @Class.Private()
-  private wrapper: HTMLElement = (
+  private wrapper = (
     <div class="wrapper">
       {this.field}
       {this.strengthSlot}
     </div>
-  ) as HTMLElement;
+  ) as HTMLDivElement;
 
   /**
    * Input styles.
    */
   @Class.Private()
-  private styles: HTMLStyleElement = (
+  private styles = (
     <style>
       {`:host > .wrapper {
   display: flex;
@@ -82,11 +83,11 @@ export class Template extends Control.Component<Properties> {
   width: 100%;
   min-width: 0px;
 }
-:host > .wrapper > .field[data-orientation='row'] {
+:host > .wrapper > .field,
+:host([data-orientation='row']) > .wrapper > .field {
   flex-direction: row;
 }
-:host > .wrapper > .field,
-:host > .wrapper > .field[data-orientation='column'] {
+:host([data-orientation='column']) > .wrapper > .field {
   flex-direction: column;
 }`}
     </style>
@@ -96,17 +97,11 @@ export class Template extends Control.Component<Properties> {
    * Input skeleton.
    */
   @Class.Private()
-  private skeleton: Element = (
+  private skeleton = (
     <div slot={this.properties.slot} class={this.properties.class}>
       {this.children}
     </div>
   ) as Element;
-
-  /**
-   * Input elements.
-   */
-  @Class.Private()
-  private elements: ShadowRoot = DOM.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.wrapper) as ShadowRoot;
 
   /**
    * Validates the confirmation password.
@@ -168,15 +163,17 @@ export class Template extends Control.Component<Properties> {
    */
   @Class.Private()
   private bindProperties(): void {
-    Object.defineProperties(this.skeleton, {
-      name: super.bindDescriptor(this, Template.prototype, 'name'),
-      value: super.bindDescriptor(this, Template.prototype, 'value'),
-      empty: super.bindDescriptor(this, Template.prototype, 'empty'),
-      required: super.bindDescriptor(this, Template.prototype, 'required'),
-      readOnly: super.bindDescriptor(this, Template.prototype, 'readOnly'),
-      disabled: super.bindDescriptor(this, Template.prototype, 'disabled'),
-      orientation: super.bindDescriptor(this, Template.prototype, 'orientation')
-    });
+    this.bindComponentProperties(this.skeleton, [
+      'name',
+      'value',
+      'defaultValue',
+      'empty',
+      'required',
+      'readOnly',
+      'disabled',
+      'orientation',
+      'reset'
+    ]);
   }
 
   /**
@@ -184,18 +181,19 @@ export class Template extends Control.Component<Properties> {
    */
   @Class.Private()
   private assignProperties(): void {
-    Control.assignProperties(this, this.properties, ['name', 'value']);
+    this.assignComponentProperties(this.properties, ['name', 'value', 'required', 'readOnly', 'disabled']);
     this.orientation = this.properties.orientation || 'row';
     this.changeHandler();
   }
 
   /**
    * Default constructor.
-   * @param properties Form properties.
-   * @param children Form children.
+   * @param properties Password properties.
+   * @param children Password children.
    */
   constructor(properties: Properties, children?: any[]) {
     super(properties, children);
+    DOM.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.wrapper);
     this.bindHandlers();
     this.bindProperties();
     this.assignProperties();
@@ -214,6 +212,14 @@ export class Template extends Control.Component<Properties> {
    */
   public set name(name: string) {
     this.states.name = name;
+  }
+
+  /**
+   * Get default password value.
+   */
+  @Class.Public()
+  public get defaultValue(): string {
+    return this.properties.value || '';
   }
 
   /**
@@ -295,21 +301,30 @@ export class Template extends Control.Component<Properties> {
    */
   @Class.Public()
   public get orientation(): string {
-    return this.field.dataset.orientation || 'row';
+    return this.skeleton.dataset.orientation || 'row';
   }
 
   /**
    * Set orientation mode.
    */
   public set orientation(mode: string) {
-    this.field.dataset.orientation = mode;
+    this.skeleton.dataset.orientation = mode;
   }
 
   /**
-   * Input element.
+   * Password element.
    */
   @Class.Public()
   public get element(): Element {
     return this.skeleton;
+  }
+
+  /**
+   * Reset the password to its initial value and state.
+   */
+  @Class.Public()
+  public reset(): void {
+    this.value = this.defaultValue;
+    this.changeHandler();
   }
 }

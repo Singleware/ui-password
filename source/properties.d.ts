@@ -9,47 +9,47 @@ import { Pattern } from './pattern';
  */
 export interface Properties {
   /**
-   * Input classes.
+   * Password classes.
    */
   class?: string;
   /**
-   * Input slot.
+   * Password slot.
    */
   slot?: string;
   /**
-   * Input name.
+   * Password name.
    */
   name?: string;
   /**
-   * Input value.
+   * Password value.
    */
-  value?: number;
+  value?: string;
   /**
-   * Determines whether the input is required or not.
+   * Determines whether the password is required or not.
    */
   required?: boolean;
   /**
-   * Determines whether the input is read-only or not.
+   * Determines whether the password is read-only or not.
    */
   readOnly?: boolean;
   /**
-   * Determines whether the input is disabled or not.
+   * Determines whether the password is disabled or not.
    */
   disabled?: boolean;
   /**
-   * Input orientation.
+   * Password orientation.
    */
   orientation?: string;
   /**
-   * Input strength patterns.
+   * Password strength patterns.
    */
   patterns: Pattern;
   /**
-   * Minimum strength value.
+   * Minimum value strength.
    */
   strength: number;
   /**
-   * Input children.
+   * Password children.
    */
   children?: {};
 }

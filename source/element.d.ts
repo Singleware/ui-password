@@ -8,13 +8,17 @@
  */
 export interface Element extends HTMLDivElement {
   /**
-   * Input value.
+   * Password name.
+   */
+  name: string;
+  /**
+   * Password value.
    */
   value: string;
   /**
-   * Input name.
+   * Password default value.
    */
-  name: string;
+  defaultValue: string;
   /**
    * Required state.
    */
@@ -31,4 +35,8 @@ export interface Element extends HTMLDivElement {
    * Orientation mode.
    */
   orientation: string;
+  /**
+   * Reset the password to its initial value and state.
+   */
+  reset: () => void;
 }

@@ -38,10 +38,6 @@ export declare class Template extends Control.Component<Properties> {
      */
     private skeleton;
     /**
-     * Input elements.
-     */
-    private elements;
-    /**
      * Validates the confirmation password.
      */
     private validateConfirmation;
@@ -67,8 +63,8 @@ export declare class Template extends Control.Component<Properties> {
     private assignProperties;
     /**
      * Default constructor.
-     * @param properties Form properties.
-     * @param children Form children.
+     * @param properties Password properties.
+     * @param children Password children.
      */
     constructor(properties: Properties, children?: any[]);
     /**
@@ -78,6 +74,10 @@ export declare class Template extends Control.Component<Properties> {
     * Set input name.
     */
     name: string;
+    /**
+     * Get default password value.
+     */
+    readonly defaultValue: string;
     /**
      * Get input value.
      */
@@ -118,7 +118,11 @@ export declare class Template extends Control.Component<Properties> {
     */
     orientation: string;
     /**
-     * Input element.
+     * Password element.
      */
     readonly element: Element;
+    /**
+     * Reset the password to its initial value and state.
+     */
+    reset(): void;
 }

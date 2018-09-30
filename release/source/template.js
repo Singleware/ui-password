@@ -6,8 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Template_1;
-"use strict";
 /**
  * Copyright (C) 2018 Silas B. Domingos
  * This source code is licensed under the MIT License as described in the file LICENSE.
@@ -18,11 +16,11 @@ const Control = require("@singleware/ui-control");
 /**
  * Password template class.
  */
-let Template = Template_1 = class Template extends Control.Component {
+let Template = class Template extends Control.Component {
     /**
      * Default constructor.
-     * @param properties Form properties.
-     * @param children Form children.
+     * @param properties Password properties.
+     * @param children Password children.
      */
     constructor(properties, children) {
         super(properties, children);
@@ -73,21 +71,18 @@ let Template = Template_1 = class Template extends Control.Component {
   width: 100%;
   min-width: 0px;
 }
-:host > .wrapper > .field[data-orientation='row'] {
+:host > .wrapper > .field,
+:host([data-orientation='row']) > .wrapper > .field {
   flex-direction: row;
 }
-:host > .wrapper > .field,
-:host > .wrapper > .field[data-orientation='column'] {
+:host([data-orientation='column']) > .wrapper > .field {
   flex-direction: column;
 }`));
         /**
          * Input skeleton.
          */
         this.skeleton = (DOM.create("div", { slot: this.properties.slot, class: this.properties.class }, this.children));
-        /**
-         * Input elements.
-         */
-        this.elements = DOM.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.wrapper);
+        DOM.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.wrapper);
         this.bindHandlers();
         this.bindProperties();
         this.assignProperties();
@@ -139,21 +134,23 @@ let Template = Template_1 = class Template extends Control.Component {
      * Bind exposed properties to the custom element.
      */
     bindProperties() {
-        Object.defineProperties(this.skeleton, {
-            name: super.bindDescriptor(this, Template_1.prototype, 'name'),
-            value: super.bindDescriptor(this, Template_1.prototype, 'value'),
-            empty: super.bindDescriptor(this, Template_1.prototype, 'empty'),
-            required: super.bindDescriptor(this, Template_1.prototype, 'required'),
-            readOnly: super.bindDescriptor(this, Template_1.prototype, 'readOnly'),
-            disabled: super.bindDescriptor(this, Template_1.prototype, 'disabled'),
-            orientation: super.bindDescriptor(this, Template_1.prototype, 'orientation')
-        });
+        this.bindComponentProperties(this.skeleton, [
+            'name',
+            'value',
+            'defaultValue',
+            'empty',
+            'required',
+            'readOnly',
+            'disabled',
+            'orientation',
+            'reset'
+        ]);
     }
     /**
      * Assign all elements properties.
      */
     assignProperties() {
-        Control.assignProperties(this, this.properties, ['name', 'value']);
+        this.assignComponentProperties(this.properties, ['name', 'value', 'required', 'readOnly', 'disabled']);
         this.orientation = this.properties.orientation || 'row';
         this.changeHandler();
     }
@@ -168,6 +165,12 @@ let Template = Template_1 = class Template extends Control.Component {
      */
     set name(name) {
         this.states.name = name;
+    }
+    /**
+     * Get default password value.
+     */
+    get defaultValue() {
+        return this.properties.value || '';
     }
     /**
      * Get input value.
@@ -233,19 +236,26 @@ let Template = Template_1 = class Template extends Control.Component {
      * Get orientation mode.
      */
     get orientation() {
-        return this.field.dataset.orientation || 'row';
+        return this.skeleton.dataset.orientation || 'row';
     }
     /**
      * Set orientation mode.
      */
     set orientation(mode) {
-        this.field.dataset.orientation = mode;
+        this.skeleton.dataset.orientation = mode;
     }
     /**
-     * Input element.
+     * Password element.
      */
     get element() {
         return this.skeleton;
+    }
+    /**
+     * Reset the password to its initial value and state.
+     */
+    reset() {
+        this.value = this.defaultValue;
+        this.changeHandler();
     }
 };
 __decorate([
@@ -274,9 +284,6 @@ __decorate([
 ], Template.prototype, "skeleton", void 0);
 __decorate([
     Class.Private()
-], Template.prototype, "elements", void 0);
-__decorate([
-    Class.Private()
 ], Template.prototype, "validateConfirmation", null);
 __decorate([
     Class.Private()
@@ -298,6 +305,9 @@ __decorate([
 ], Template.prototype, "name", null);
 __decorate([
     Class.Public()
+], Template.prototype, "defaultValue", null);
+__decorate([
+    Class.Public()
 ], Template.prototype, "value", null);
 __decorate([
     Class.Public()
@@ -317,7 +327,10 @@ __decorate([
 __decorate([
     Class.Public()
 ], Template.prototype, "element", null);
-Template = Template_1 = __decorate([
+__decorate([
+    Class.Public()
+], Template.prototype, "reset", null);
+Template = __decorate([
     Class.Describe()
 ], Template);
 exports.Template = Template;
