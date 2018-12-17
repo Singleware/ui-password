@@ -36,31 +36,31 @@ let Template = class Template extends Control.Component {
         /**
          * Password element.
          */
-        this.passwordSlot = DOM.create("slot", { name: "password", class: "password" });
+        this.passwordSlot = JSX.create("slot", { name: "password", class: "password" });
         /**
          * Confirmation element.
          */
-        this.confirmationSlot = DOM.create("slot", { name: "confirmation", class: "confirmation" });
+        this.confirmationSlot = JSX.create("slot", { name: "confirmation", class: "confirmation" });
         /**
          * Strength element.
          */
-        this.strengthSlot = DOM.create("slot", { name: "strength", class: "strength" });
+        this.strengthSlot = JSX.create("slot", { name: "strength", class: "strength" });
         /**
          * Field element.
          */
-        this.field = (DOM.create("div", { class: "field" },
+        this.field = (JSX.create("div", { class: "field" },
             this.passwordSlot,
             this.confirmationSlot));
         /**
          * Wrapper element.
          */
-        this.wrapper = (DOM.create("div", { class: "wrapper" },
+        this.wrapper = (JSX.create("div", { class: "wrapper" },
             this.field,
             this.strengthSlot));
         /**
          * Input styles.
          */
-        this.styles = (DOM.create("style", null, `:host > .wrapper {
+        this.styles = (JSX.create("style", null, `:host > .wrapper {
   display: flex;
   flex-direction: column;
 }
@@ -81,7 +81,7 @@ let Template = class Template extends Control.Component {
         /**
          * Input skeleton.
          */
-        this.skeleton = (DOM.create("div", { slot: this.properties.slot, class: this.properties.class }, this.children));
+        this.skeleton = (JSX.create("div", { slot: this.properties.slot, class: this.properties.class }, this.children));
         DOM.append(this.skeleton.attachShadow({ mode: 'closed' }), this.styles, this.wrapper);
         this.bindHandlers();
         this.bindProperties();
@@ -102,20 +102,22 @@ let Template = class Template extends Control.Component {
     validateStrength() {
         const password = Control.getChildByProperty(this.passwordSlot, 'value');
         const progress = Control.getChildByProperty(this.strengthSlot, 'value');
-        let current = 0;
-        let maximum = 0;
-        for (const strength in this.properties.patterns) {
-            const level = parseInt(strength);
-            if (this.properties.patterns[strength].test(password.value)) {
-                current = Math.max(current, level);
+        if (password && progress) {
+            let current = 0;
+            let maximum = 0;
+            for (const strength in this.properties.patterns) {
+                const level = parseInt(strength);
+                if (this.properties.patterns[strength].test(password.value)) {
+                    current = Math.max(current, level);
+                }
+                maximum = Math.max(maximum, level);
             }
-            maximum = Math.max(maximum, level);
+            if (progress) {
+                progress.total = maximum;
+                progress.value = current;
+            }
+            password.setCustomValidity(this.properties.strength > current ? `Password strength too weak.` : ``);
         }
-        if (progress) {
-            progress.total = maximum;
-            progress.value = current;
-        }
-        password.setCustomValidity(this.properties.strength > current ? `Password strength too weak.` : ``);
     }
     /**
      * Change event handler.
@@ -128,7 +130,8 @@ let Template = class Template extends Control.Component {
      * Bind event handlers to update the custom element.
      */
     bindHandlers() {
-        this.skeleton.addEventListener('keyup', this.changeHandler.bind(this));
+        this.skeleton.addEventListener('keyup', this.changeHandler.bind(this), true);
+        this.skeleton.addEventListener('change', this.changeHandler.bind(this), true);
     }
     /**
      * Bind exposed properties to the custom element.
@@ -143,6 +146,7 @@ let Template = class Template extends Control.Component {
             'readOnly',
             'disabled',
             'orientation',
+            'checkValidity',
             'reset'
         ]);
     }
@@ -176,7 +180,7 @@ let Template = class Template extends Control.Component {
      * Get input value.
      */
     get value() {
-        return Control.getChildProperty(this.passwordSlot, 'value');
+        return Control.getChildProperty(this.passwordSlot, 'value') || '';
     }
     /**
      * Set input value.
@@ -249,6 +253,16 @@ let Template = class Template extends Control.Component {
      */
     get element() {
         return this.skeleton;
+    }
+    /**
+     * Checks the element validity.
+     * @returns Returns true when the element is valid, false otherwise.
+     */
+    checkValidity() {
+        const password = Control.getChildByProperty(this.passwordSlot, 'value');
+        const confirmation = Control.getChildByProperty(this.confirmationSlot, 'value');
+        return ((!(password.checkValidity instanceof Function) || password.checkValidity()) &&
+            (!(confirmation.checkValidity instanceof Function) || confirmation.checkValidity()));
     }
     /**
      * Reset the password to its initial value and state.
@@ -327,6 +341,9 @@ __decorate([
 __decorate([
     Class.Public()
 ], Template.prototype, "element", null);
+__decorate([
+    Class.Public()
+], Template.prototype, "checkValidity", null);
 __decorate([
     Class.Public()
 ], Template.prototype, "reset", null);

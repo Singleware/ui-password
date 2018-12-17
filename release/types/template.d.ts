@@ -122,6 +122,11 @@ export declare class Template extends Control.Component<Properties> {
      */
     readonly element: Element;
     /**
+     * Checks the element validity.
+     * @returns Returns true when the element is valid, false otherwise.
+     */
+    checkValidity(): boolean;
+    /**
      * Reset the password to its initial value and state.
      */
     reset(): void;

@@ -17,6 +17,14 @@ export interface Properties {
    */
   slot?: string;
   /**
+   * Password strength patterns.
+   */
+  patterns: Pattern;
+  /**
+   * Minimum value strength.
+   */
+  strength: number;
+  /**
    * Password name.
    */
   name?: string;
@@ -40,14 +48,6 @@ export interface Properties {
    * Password orientation.
    */
   orientation?: string;
-  /**
-   * Password strength patterns.
-   */
-  patterns: Pattern;
-  /**
-   * Minimum value strength.
-   */
-  strength: number;
   /**
    * Password children.
    */

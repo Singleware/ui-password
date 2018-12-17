@@ -5,7 +5,7 @@
  * The proposal of this example is to show how to use the password input.
  */
 import * as Password from '../source';
-import * as DOM from '@singleware/jsx';
+import * as JSX from '@singleware/jsx';
 
 const patterns = {
   10: /^(?=.*[a-zA-Z0-9]).{6,}$/i,
@@ -13,11 +13,11 @@ const patterns = {
   30: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W]).{6,}$/
 };
 const input = (
-  <Password.Template patterns={patterns} strength={20}>
+  <Password.Component patterns={patterns} strength={20}>
     <input slot="password" type="password" />
     <input slot="confirmation" type="password" />
     <input slot="strength" type="text" />
-  </Password.Template>
+  </Password.Component>
 ) as Password.Element;
 
 /**

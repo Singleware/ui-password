@@ -7,16 +7,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * The proposal of this example is to show how to use the password input.
  */
 const Password = require("../source");
-const DOM = require("@singleware/jsx");
+const JSX = require("@singleware/jsx");
 const patterns = {
     10: /^(?=.*[a-zA-Z0-9]).{6,}$/i,
     20: /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$/,
     30: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W]).{6,}$/
 };
-const input = (DOM.create(Password.Template, { patterns: patterns, strength: 20 },
-    DOM.create("input", { slot: "password", type: "password" }),
-    DOM.create("input", { slot: "confirmation", type: "password" }),
-    DOM.create("input", { slot: "strength", type: "text" })));
+const input = (JSX.create(Password.Component, { patterns: patterns, strength: 20 },
+    JSX.create("input", { slot: "password", type: "password" }),
+    JSX.create("input", { slot: "confirmation", type: "password" }),
+    JSX.create("input", { slot: "strength", type: "text" })));
 /**
  * Change the password input name.
  */
